@@ -70,7 +70,7 @@ export default class HomeView extends Component {
             }>
                 <View style={styles.card}>
                     <ProductImage                     
-                        source={{uri: imageUrl, cache : 'only-if-cached'}}
+                        source={{uri: imageUrl, cache : 'force-cache'}}
                     />
                     <ProductName>{item.title}</ProductName>
                     <ProductPrice>{"$"+item.pricing.price}</ProductPrice>
@@ -105,11 +105,11 @@ export default class HomeView extends Component {
                     data={this.state.catalog.products}
                     renderItem={this.renderItem}
                     onEndReached={
-                        () => this.fetchCatalog(0, true)                    
+                        () => this.fetchCatalog(this.state.catalog.page + 1, true)                    
                     }
                     refreshing={this.state.networkStatus}
                     onRefresh={
-                        () => this.fetchCatalog(this.state.catalog.page + 1, false)
+                        () => this.fetchCatalog(0, false)                    
                     }
                     keyExtractor={(item, index) => index}
                 />
@@ -121,10 +121,15 @@ export default class HomeView extends Component {
 
         // Fetch products from the api. And add it to the state so the new list is rendered.
         // Pagination uses a appending logic when the scoll is gone to the last.
+
+        console.log("Page : ",page)
+
         this.setState({ networkStatus : true })
         const url = apiUrl + page
         const response = await fetch(url)
         var json = await response.json()
+
+
 
         if (reset == true) {
             
@@ -132,7 +137,7 @@ export default class HomeView extends Component {
             var totalProducts = [...existingProducts,...json.products]
             json.products = totalProducts
         }
-        
+        console.log("After Page : ",json.page);
         this.setState({catalog : json, networkStatus : false })
     }
 }

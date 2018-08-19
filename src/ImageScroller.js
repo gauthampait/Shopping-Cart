@@ -76,7 +76,10 @@ export default class ImageScroller extends Component {
                     width : this.props.style.width
                 }   
             ]}
-            source={{uri: imageBaseUrl+item.name}}
+            source={{
+                uri: imageBaseUrl+item.name,
+                cache : 'force-cache'
+            }}
         />
     )
   }
