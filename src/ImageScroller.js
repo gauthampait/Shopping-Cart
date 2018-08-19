@@ -1,3 +1,5 @@
+// ImageScroller component with Page Control and horizontal FlatList.
+
 import React, { Component } from 'react';
 import {
     View,
@@ -19,6 +21,7 @@ import PageControl from 'react-native-page-control';
 
 export default class ImageScroller extends Component {
 
+    // Initial state
     state = {
         currentPage : 0
     }
@@ -33,6 +36,8 @@ export default class ImageScroller extends Component {
             height : this.props.style.height + 20,
             width : this.props.style.width
         }, styles.container]}>
+
+        {/* Implementing horizontal FlatList with the list of images from the props */}
         <FlatList
             horizontal
             pagingEnabled
@@ -62,6 +67,8 @@ export default class ImageScroller extends Component {
   }
 
   renderItem = ({item,index}) => {
+
+    // Rendering each image item for the horizontal scroll view.
     return(
         <Image
             style={[styles.cell, { 
@@ -75,6 +82,9 @@ export default class ImageScroller extends Component {
   }
 
   onScrollEnd = (e) => {
+
+    // Resign the screen when scrolled to a loewer offset.
+
     let contentOffset = e.nativeEvent.contentOffset;
     let viewSize = e.nativeEvent.layoutMeasurement;
 

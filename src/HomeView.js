@@ -27,6 +27,7 @@ import styled from 'styled-components';
 
 export default class HomeView extends Component {
 
+    // Initial State of the Component
     state = {
         catalog : {
             products : [],
@@ -37,6 +38,7 @@ export default class HomeView extends Component {
         selectedProductID : null
     }
 
+    // Customize ther Navigation bar of the StackNavigator
     static navigationOptions = {
         title : 'Explore',
         headerTitleStyle : {
@@ -53,11 +55,14 @@ export default class HomeView extends Component {
     }
 
     componentWillMount(){
+
+        // Initial call to fetch the products from the API.
         this.fetchCatalog(this.state.catalog.page,true)
     }
 
     renderItem = ({ item, index }) => {
 
+        // Function to Render the cells of the FlatList.
         var imageUrl = imageBaseUrl + item.img.name
         return (
             <TouchableOpacity onPress={ () =>
@@ -80,6 +85,8 @@ export default class HomeView extends Component {
 
             <Container>
 
+                {/* Using a modal presentation instead of Push and passing the 
+                product ID to fetch in the detailView */}
                 <Modal
                     animationType='slide'
                     visible={this.state.showProduct}
@@ -112,6 +119,8 @@ export default class HomeView extends Component {
     
     async fetchCatalog(page,reset){
 
+        // Fetch products from the api. And add it to the state so the new list is rendered.
+        // Pagination uses a appending logic when the scoll is gone to the last.
         this.setState({ networkStatus : true })
         const url = apiUrl + page
         const response = await fetch(url)
@@ -128,6 +137,9 @@ export default class HomeView extends Component {
     }
 }
 
+
+// Using styled-compoents for certain UI objects. Styled-Components make is much easier to
+// styling properties. From the business logic.
 const Container = styled.View`
     flex : 1;
     background-color : #eff2f7;
@@ -155,6 +167,7 @@ const ProductName = styled.Text`
     font-size : 10;
 `
 
+// Using stylesheet for certain components.
 const styles = StyleSheet.create({
     card : {
         flex : 1,
